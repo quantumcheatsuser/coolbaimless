@@ -669,6 +669,7 @@ emergencyGroupbox:AddButton("No Night", function()
         end);
     end)
 
+   
 if game.PlaceId == 111311599 then
 	-- Critical Strike Anticheat Disabler
 	local anticheat = game:GetService("ReplicatedFirst")["Serverbased AntiCheat"]
@@ -701,7 +702,7 @@ local WatermarkConnection = game:GetService('RunService').RenderStepped:Connect(
         FrameCounter = 0;
     end;
 
-    Library:SetWatermark(('bbot.fun | Private | %s fps | %s ms'):format(
+    Library:SetWatermark(('bbot.fun | Private | State of Anarchy | %s fps | %s ms'):format(
         math.floor(FPS),
         math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue())
     ));
@@ -710,4 +711,6 @@ end)
 getgenv().FurryHBELoaded = true
 updatePlayers()
 Library:Notify("Welcome to bbot.fun v2.1")
+Library:Notify("Be aware with bugs or some options dont working")
+Library:Notify("Wave is not helping me :(")
 Library:Notify("Press " .. Library.ToggleKeybind.Value .. " to open the menu")
