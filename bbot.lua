@@ -61,10 +61,8 @@ local ignoresGroupbox = mainTab:AddRightGroupbox("Ignores")
 local collisionsGroupbox = mainTab:AddRightGroupbox("Collisions")
 local miscGroupbox = mainTab:AddLeftGroupbox("Keybinds")
 
-local emergencyTab = mainWindow:AddTab("Emergency")
-local emergencyGroupbox = emergencyTab:AddLeftGroupbox("Fixes")
-local emergencyGroupbox = emergencyTab:AddLeftGroupbox("Exploits")
-Library:SetWatermark("BBOT.FUN | FREE | Edson06")
+local emergencyTab = mainWindow:AddTab("Other")
+local emergencyGroupbox = emergencyTab:AddLeftGroupbox("Light")
 
 mainGroupbox:AddToggle("extenderToggled", { Text = "Toggle" }):OnChanged(updatePlayers)
 mainGroupbox:AddSlider("extenderSize", { Text = "Size", Min = 2, Max = 10000, Default = 10, Rounding = 1 }):OnChanged(updatePlayers)
@@ -642,21 +640,34 @@ lPlayer.CharacterAdded:Connect(function()
 end)
 
 -- This is a very very very very very very rare bug that I encountered, so here's a button that fixes it
-emergencyGroupbox:AddButton("Fix Missing Players", function()
-	local found = 0
-	for _, player in ipairs(Players:GetPlayers()) do
-		if players[player] or player == lPlayer then continue else
-			found = found + 1
-			addPlayer(player)
-		end
-	end
-	if found > 0 then
-		Library:Notify("Found " .. found .. " players")
-	else
-		Library:Notify("No missing players found")
-	end
-	updatePlayers()
-end):AddTooltip("Attempts to find players that were not detected by the hbe (somehow)")
+emergencyGroupbox:AddButton("No Night", function()
+    
+        local lighting = game:GetService("Lighting");
+        lighting.Ambient = Color3.fromRGB(255, 255, 255);
+        lighting.Brightness = 1;
+        lighting.FogEnd = 1e10;
+        for i, v in pairs(lighting:GetDescendants()) do
+            if v:IsA("BloomEffect") or v:IsA("BlurEffect") or v:IsA("ColorCorrectionEffect") or v:IsA("SunRaysEffect") then
+                v.Enabled = false;
+            end;
+        end;
+        lighting.Changed:Connect(function()
+            lighting.Ambient = Color3.fromRGB(255, 255, 255);
+            lighting.Brightness = 1;
+            lighting.FogEnd = 1e10;
+        end);
+        spawn(function()
+            local character = game:GetService("Players").LocalPlayer.Character;
+            while wait() do
+                repeat wait() until character ~= nil;
+                if not character.HumanoidRootPart:FindFirstChildWhichIsA("PointLight") then
+                    local headlight = Instance.new("PointLight", character.HumanoidRootPart);
+                    headlight.Brightness = 1;
+                    headlight.Range = 60;
+                end;
+            end;
+        end);
+    end)
 
 if game.PlaceId == 111311599 then
 	-- Critical Strike Anticheat Disabler
@@ -673,6 +684,28 @@ if game.PlaceId == 111311599 then
 	end)
 	anticheat.Disabled = true
 end
+
+Library:SetWatermarkVisibility(true)
+
+-- Example of dynamically-updating watermark with common traits (fps and ping)
+local FrameTimer = tick()
+local FrameCounter = 0;
+local FPS = 60;
+
+local WatermarkConnection = game:GetService('RunService').RenderStepped:Connect(function()
+    FrameCounter += 1;
+
+    if (tick() - FrameTimer) >= 1 then
+        FPS = FrameCounter;
+        FrameTimer = tick();
+        FrameCounter = 0;
+    end;
+
+    Library:SetWatermark(('bbot.fun | Private | %s fps | %s ms'):format(
+        math.floor(FPS),
+        math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue())
+    ));
+end)
 
 getgenv().FurryHBELoaded = true
 updatePlayers()
