@@ -25,5 +25,12 @@ if game.PlaceId == 4026676776 then
 
 
 end
+	
+if game.PlaceId == 7180042682 then
+
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/quantumcheatsuser/coolbaimless/refs/heads/main/tycoonfucker.lua"))()
+
+
+end
 
 
