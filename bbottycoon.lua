@@ -53,7 +53,7 @@ RunService:BindToRenderStep("furryWalls", Enum.RenderPriority.Camera.Value - 1, 
 	end
 end)
 
-local mainWindow = Library:CreateWindow("bbot.fun | State of Anarchy")
+local mainWindow = Library:CreateWindow("bbot.fun | Tycoon")
 local mainTab = mainWindow:AddTab("Main")
 local mainGroupbox = mainTab:AddLeftGroupbox("Hitbox Extender")
 local espGroupbox = mainTab:AddLeftGroupbox("ESP")
